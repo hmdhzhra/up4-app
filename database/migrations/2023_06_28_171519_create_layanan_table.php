@@ -17,12 +17,13 @@ class CreateLayananTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pengujian_id');
             $table->unsignedBigInteger('jenis_id');
+            $table->integer('jumlah');
             $table->bigInteger('total');
             $table->enum('status_pembayaran',['unpaid','paid']);
             $table->timestamps();
 
-            $table->foreign('jenis_id')->references('id')->on('jenis_layanan');
-            $table->foreign('pengujian_id')->references('id')->on('pengujian');
+            $table->foreign('jenis_id')->references('id')->on('jenis_layanan')->onDelete('cascade');
+            $table->foreign('pengujian_id')->references('id')->on('pengujian')->onDelete('cascade');
         });
     }
 

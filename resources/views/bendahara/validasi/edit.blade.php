@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Validasi</h4>
+              <h4 class="modal-title">Upload File SSRD</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -36,26 +36,7 @@
                       </div>
 
                       <div class="form-group">
-                            <label>Validasi</label>
-                            <select class="form-control" id="validasi" name="validasi">
-                              <option>--Pilih Validasi--</option>
-                              <option>Validasi diterima</option>
-                              <option>Validasi dibatalkan</option>
-                            </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="keterangan">Keterangan</label>
-                        <input type="text" class="form-control @error('keterangan')is-invalid @enderror" id="keterangan" name="keterangan" placeholder="Masukkan keterangan jika diperlukan" value="{{ old('keterangan') }}">
-                        @error('no_order')
-                          <div class="invalid-feedback">
-                          {{ $message }}
-                          </div>
-                        @enderror
-                      </div>
-
-                      <div class="form-group">
-                            <label for="berkas_skrd">SKRD</label>
+                            <label for="berkas_skrd">SSRD</label>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="berkas_skrd" name="berkas_skrd">

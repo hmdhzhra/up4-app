@@ -121,6 +121,13 @@ class JadwalController extends Controller
             ];
 
             $penugasan->pengujian->update($data);
+        }else{
+            $data = [
+                'keterangan' =>$request->keterangan,
+                'status' => 'Menunggu Material Pengujian',
+            ];
+
+            $penugasan->pengujian->update($data);
         }
         return back()->with('toast_success', 'Status berhasil diubah');
     }

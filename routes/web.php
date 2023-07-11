@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PelangganController;
 use App\Http\Controllers\Pelanggan\ProfileController;
+use App\Http\Controllers\Pelanggan\RiwayatController;
 use App\Http\Controllers\Pelanggan\PermohonanController;
 use App\Http\Controllers\Pelanggan\BayarLayananController;
 use App\Http\Controllers\Bendahara\ValidasiController;
@@ -66,6 +67,9 @@ Route::group(['middleware' => ['auth']], function(){
             Route::resource('profile', ProfileController::class)->only([
                 'index', 'update',
             ]);
+            Route::resource('riwayat', RiwayatController::class)->only([
+                'index',
+            ]);
             
             Route::resource('permohonan', PermohonanController::class)->only([
                 'index', 'store', 'update',
@@ -91,6 +95,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::resource('validasi', ValidasiController::class)->only([
                 'index', 'update',
             ]);
+            Route::post('/validasi_berkas/{id}', [ValidasiController::class, 'validasi_berkas'])->name('validasi_berkas');
 
             Route::resource('statusbayar', StatusBayarController::class)->only([
                 'index'

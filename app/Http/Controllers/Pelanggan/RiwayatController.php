@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Laboran;
+namespace App\Http\Controllers\Pelanggan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,11 +9,9 @@ use App\Models\Pelanggan;
 use App\Models\Pengujian;
 use App\Models\Jenis_Layanan;
 use App\Models\Layanan;
-use App\Models\Penugasan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
-class MonitoringController extends Controller
+class RiwayatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,13 +20,28 @@ class MonitoringController extends Controller
      */
     public function index()
     {
-        $title = "Monitoring Pelayanan";
-        $data_pengujian = Pengujian::with('penugasan')->whereIn('status', ['Proses Pengujian', 'Menunggu Laporan', 'Selesai'])->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
-        return view('laboran.monitoring.index', compact(
-            'title', 
-            'data_pengujian',
-        ));
+        $title = 'Riwayat Pengujian';
+        $username = Auth::user()->username;
+        $data_pelanggan = Pelanggan::where('user_id', Auth::user()->id)->first();
+        $user = Auth::user();
+        $pelanggan =$user->pelanggan;
+        $data_pengujian = Pengujian::with('layanan.jenisLayanan')->where('pelanggan_id', $data_pelanggan->id)->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
+        $validasi = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Menunggu Validasi Berkas'])->count();
+        $validasi_ditolak = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Validasi ditolak'])->count();
+        $stats_pembayaran = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Lakukan Pembayaran'])->count();
+        $selesai = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Selesai'])->count();
 
+        return view('pelanggan.pelanggan', compact(
+            'title', 
+            'data_pelanggan', 
+            'username', 
+            'data_pengujian',
+            'validasi',
+            'validasi_ditolak',
+            'stats_pembayaran',
+            'selesai'
+
+        ));
     }
 
     /**
@@ -83,31 +96,7 @@ class MonitoringController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pengujian = Pengujian::with('pelanggan.user','penugasan')->findorfail($id);
-        $currentTime = now()->format('YmdHis');
-        $username = $pengujian->pelanggan->user->username;
-
-        if ($request->hasFile('laporan_lab')) {
-            $laporan_lab = $request->file('laporan_lab');
-            $filename = Str::slug($username) . '_' . $currentTime . '_' . $laporan_lab->getClientOriginalName();
-            $laporan_lab_save = $laporan_lab->storeAs('public/laporan_lab', $filename);
-            $laporan_lab_path = 'storage/laporan_lab/'.$filename;
-        }  else {
-            $laporan_lab_path = null;
-        }
-
-        $data = [
-            'laporan_lab' => $laporan_lab_path,
-        ];
-        $pengujian->penugasan->update($data);
-
-        $data2 = [
-            'status' => 'Menunggu Laporan',
-
-        ];
-        $pengujian->update($data2);
-
-        return back()->with('toast_success', 'Upload surat tugas berhasil');
+        //
     }
 
     /**

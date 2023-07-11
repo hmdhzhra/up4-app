@@ -24,7 +24,7 @@ class ValidasiController extends Controller
     {
         //
         $title = 'Validasi Berkas';
-        $data_pengujian = Pengujian::with('pelanggan.user')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Dibayar'])
+        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Dibayar'])
             ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         $jml_validasi = Pengujian::where('status', ['Menunggu Validasi Berkas'])->count();
         $jml_validasiDone = Pengujian::whereNotNull('no_skrd')->count();
@@ -96,34 +96,41 @@ class ValidasiController extends Controller
         if ($request->hasFile('berkas_skrd')) {
             $berkas_skrd = $request->file('berkas_skrd');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_skrd->getClientOriginalName();
-            $berkas_skrd_path = $berkas_skrd->storeAs('berkas_skrd', $filename);
+            $berkas_skrd_save = $berkas_skrd->storeAs('public/berkas_skrd', $filename);
+            $berkas_skrd_path = 'storage/berkas_skrd/'.$filename;
         }  else {
             $berkas_skrd_path = null;
         }
 
-        if($request->validasi == 'Validasi diterima'){
             $data = [
                 'no_skrd' =>$request->no_skrd,
                 'no_order' =>$request->no_order,
-                'status' => 'Lakukan Pembayaran',
+                'status' => 'Menunggu Penjadwalan',
                 'berkas_skrd' => $berkas_skrd_path,
-                'keterangan' => $request->keterangan,
             ];
             $pengujian->update($data);
+            
+            return back()->with('toast_success', 'File SSRD verhasil diupload');
+    }
 
-            
-            
-            return back()->with('toast_success', 'Validasi data berhasil');
-        } elseif ($request->validasi == 'Validasi dibatalkan'){
+    public function validasi_berkas(Request $request, $id)
+    {
+        $pengujian = Pengujian::with('pelanggan.user')->findorfail($id);
+
+        if($request->validasi == 'Berkas Lengkap'){
             $data = [
-                'no_skrd' =>null,
-                'no_order' =>null,
-                'status' => 'Validasi ditolak',
-                'berkas_skrd' => null,
+                'status' => 'Lakukan Pembayaran',
                 'keterangan' => $request->keterangan,
             ];
             $pengujian->update($data);
-            return back()->with('toast_success', 'Validasi data berhasil');
+            return back()->with('toast_success', 'Validasi berkas berhasil');
+        } elseif ($request->validasi == 'Berkas Tidak Lengkap'){
+            $data = [
+                'status' => 'Validasi ditolak',
+                'keterangan' => $request->keterangan,
+            ];
+            $pengujian->update($data);
+            return back()->with('toast_success', 'Validasi berkas berhasil');
         }
 
 

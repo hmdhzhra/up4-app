@@ -46,11 +46,9 @@ class DashboardController extends Controller
                 $stats_pembayaran = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Lakukan Pembayaran'])->count();
                 $selesai = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Selesai'])->count();
                 
-                return view('dashboard2.pelanggan', compact(
-                    'title', 
-                    'data_pelanggan', 
+                return view('dashboard2.pelanggan2', compact(
+                    'title',
                     'username', 
-                    'data_pengujian',
                     'validasi',
                     'validasi_ditolak',
                     'stats_pembayaran',

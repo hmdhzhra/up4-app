@@ -21,7 +21,7 @@ class CreatePenugasanTable extends Migration
             $table->string('laporan_lab', 150)->nullable();
             $table->timestamps();
 
-            $table->foreign('pengujian_id')->references('id')->on('pengujian');
+            $table->foreign('pengujian_id')->references('id')->on('pengujian')->onDelete('cascade');
         });
     }
 

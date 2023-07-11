@@ -9,7 +9,7 @@
               </button>
             </div>
 
-            <div class="modal-body">total
+            <div class="modal-body">
                 <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -69,6 +69,7 @@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
             </div>
+        </form>
         </div>
           <!-- /.modal-content -->
         </div>

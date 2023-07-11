@@ -76,7 +76,7 @@
                     </td>
                     <td>
                       @if($pengujian->laporan)
-                          <a href="{{ asset($pengujian->penugasan->laporan) }}" class="btn btn-success" target="_blank">Tampilkan</a>
+                          <a href="{{ asset($pengujian->laporan) }}" class="btn btn-success" target="_blank">Tampilkan</a>
                       @else
                           <p> </p>
                       @endif

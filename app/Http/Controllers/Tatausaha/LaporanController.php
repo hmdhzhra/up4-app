@@ -91,7 +91,8 @@ class LaporanController extends Controller
         if ($request->hasFile('laporan')) {
             $laporan = $request->file('laporan');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $laporan->getClientOriginalName();
-            $laporan_path = $laporan->storeAs('laporan', $filename);
+            $laporan_save = $laporan->storeAs('public/laporan', $filename);
+            $laporan_path = 'storage/laporan/'.$filename;
         }  else {
             $laporan_path = null;
         }

@@ -9,6 +9,9 @@
               </button>
             </div>
 
+            <form action="{{route('validasi_berkas', $pengujian->id)}}" method="POST"">
+                @csrf
+                {{ method_field('POST') }}
             <div class="modal-body">
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -47,12 +50,32 @@
                             </tr>
                         </tbody>
                     </table>
+                    <br>
+                    <div class="form-group">
+                            <label>Validasi Berkas</label>
+                            <select class="form-control" id="validasi" name="validasi">
+                              <option>--Pilih Validasi--</option>
+                              <option value="Berkas Lengkap">Berkas Lengkap</option>
+                              <option value="Berkas Tidak Lengkap">Berkas Tidak Lengkap</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" class="form-control @error('keterangan')is-invalid @enderror" id="keterangan" name="keterangan" placeholder="Masukkan keterangan jika diperlukan" value="{{ old('keterangan') }}">
+                        @error('no_order')
+                          <div class="invalid-feedback">
+                          {{ $message }}
+                          </div>
+                        @enderror
+                      </div>
                 </div>
             </div>
 
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
+        </form>
         </div>
           <!-- /.modal-content -->
         </div>

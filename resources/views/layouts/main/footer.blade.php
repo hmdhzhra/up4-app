@@ -13,6 +13,9 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<script src="{{asset('assets')}}/timeline/assets/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+  <script src="{{asset('assets')}}/timeline/assets/js/swipe-content.js"></script> <!-- A Vanilla JavaScript plugin to detect touch interactions -->
+  <script src="{{asset('assets')}}/timeline/assets/js/main.js"></script>
 <!-- jQuery -->
 <script src="{{asset('assets')}}/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->

@@ -23,12 +23,14 @@ class BayarLayananController extends Controller
         //
         $title = 'Pembayaran Layanan';
         $data_pelanggan = Pelanggan::where('user_id', Auth::user()->id)->first();
-        $data_pembayaran = Pengujian::with(['layanan.jenisLayanan'])->whereHas('layanan', function ($query) {
-            $query->where(function ($subquery) {
-            $subquery->where('status_pembayaran', 'unpaid')
-                     ->orWhere('status_pembayaran', 'paid');
-            });
+        $data_pembayaran = Pengujian::with(['layanan.jenisLayanan'])
+            ->where(function ($query) {
+                $query->whereIn('status', ['Lakukan Pembayaran', 'Dibayar'])
+                    ->whereHas('layanan', function ($subquery) {
+                        $subquery->whereIn('status_pembayaran', ['unpaid', 'paid']);
+                    });
             })->where('pelanggan_id', $data_pelanggan->id)->get();
+
 
         return view('pelanggan.pembayaran.index', compact(
                 'title', 'data_pembayaran'
@@ -110,10 +112,17 @@ class BayarLayananController extends Controller
         $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$server_key);
         if($hashed == $request->signature_key){
             if($request->transaction_status == 'settlement'){
-                $pembayaran = Layanan::with('pengujian')->find($request->order_id);
-                $pengujian = Pengujian::where('id', $pembayaran->id)->first();
-                $pembayaran->update(['status_pembayaran' =>'paid']);
-                $pengujian->update(['status' => 'Menunggu Penjadwalan']);
+                if (fraudStatus == 'challenge'){
+                    // TODO set transaction status on your database to 'challenge'
+                    // and response with 200 OK
+                } else if (fraudStatus == 'accept'){
+                    $pembayaran = Layanan::with('pengujian')->find($request->order_id);
+                    $pengujian = Pengujian::where('id', $pembayaran->id)->first();
+                    $pembayaran->update(['status_pembayaran' =>'paid']);
+                    $pengujian->update(['status' => 'Dibayar']);
+                    // TODO set transaction status on your database to 'success'
+                    // and response with 200 OK
+                }
             }
         }
     }

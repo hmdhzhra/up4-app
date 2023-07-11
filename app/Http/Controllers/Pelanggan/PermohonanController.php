@@ -71,19 +71,22 @@ class PermohonanController extends Controller
             // Mengambil nilai jenis_id dan total dari input form
             $jenisId = $request->input('m_harga.id_barang')[0]; // Menyesuaikan indeks jika ada multiple select
             $total = $request->input('tot');
+            $jumlah = $request->input('m_harga.jumlah_barang')[0];
             $currentTime = now()->format('YmdHis'); // Mendapatkan tanggal dan jam saat ini dalam format YmdHis
             $username = Auth::user()->username;
 
         if ($request->hasFile('berkas_sp')) {
             $berkas_sp = $request->file('berkas_sp');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_sp->getClientOriginalName();
-            $berkas_sp_path = $berkas_sp->storeAs('berkas_sp', $filename);
+            $berkas_sp_save = $berkas_sp->storeAs('public/berkas_sp', $filename);
+            $berkas_sp_path = 'storage/berkas_sp/'.$filename;
         }
 
         if ($request->hasFile('berkas_spmk')) {
             $berkas_spmk = $request->file('berkas_spmk');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_spmk->getClientOriginalName();
-            $berkas_spmk_path = $berkas_spmk->storeAs('berkas_spmk', $filename);
+            $berkas_spmk_save = $berkas_spmk->storeAs('public/berkas_spmk', $filename);
+            $berkas_spmk_path = 'storage/berkas_spmk/'.$filename;
         } else {
             $berkas_spmk_path = null;
         }
@@ -91,13 +94,15 @@ class PermohonanController extends Controller
         if ($request->hasFile('berkas_ktp')) {
             $berkas_ktp = $request->file('berkas_ktp');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_ktp->getClientOriginalName();
-            $berkas_ktp_path = $berkas_ktp->storeAs('berkas_ktp', $filename);
+            $berkas_ktp_save = $berkas_ktp->storeAs('public/berkas_ktp', $filename);
+            $berkas_ktp_path = 'storage/berkas_ktp/'.$filename;
         }
 
         if ($request->hasFile('berkas_gambar')) {
             $berkas_gambar = $request->file('berkas_gambar');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_gambar->getClientOriginalName();
-            $berkas_gambar_path = $berkas_gambar->storeAs('berkas_gambar', $filename);
+            $berkas_gambar_save = $berkas_gambar->storeAs('public/berkas_gambar', $filename);
+            $berkas_gambar_path = 'storage/berkas_gambar/'.$filename;
         }  else {
             $berkas_gambar_path = null;
         }
@@ -120,13 +125,12 @@ class PermohonanController extends Controller
         $layanan = new Layanan([
             'pengujian_id' => $pengujian->id,
             'jenis_id' => $jenisId,
+            'jumlah' => $jumlah,
             'total' => $total,
         ]);
         $pengujian->layanan()->save($layanan);
 
-        return redirect()->route('dashboard')->with('toast_success', 'Permohonan Pengujian berhasil dikirim.');
-
-
+        return redirect()->route('riwayat.index')->with('toast_success', 'Permohonan Pengujian berhasil dikirim.');
     }
 
 
@@ -177,28 +181,32 @@ class PermohonanController extends Controller
         if ($request->hasFile('berkas_sp')) {
             $berkas_sp = $request->file('berkas_sp');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_sp->getClientOriginalName();
-            $berkas_sp_path = $berkas_sp->storeAs('berkas_sp', $filename);
+            $berkas_sp_save = $berkas_sp->storeAs('berkas_sp', $filename);
+            $berkas_sp_path = 'storage/berkas_sp/'.$filename;
             $berkas['berkas_sp'] = $berkas_sp_path;
         }
     
         if ($request->hasFile('berkas_ktp')) {
             $berkas_ktp = $request->file('berkas_ktp');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_ktp->getClientOriginalName();
-            $berkas_ktp_path = $berkas_ktp->storeAs('berkas_ktp', $filename);
+            $berkas_ktp_save = $berkas_ktp->storeAs('berkas_ktp', $filename);
+            $berkas_ktp_path = 'storage/berkas_ktp/'.$filename;
             $berkas['berkas_ktp'] = $berkas_ktp_path;
         }
     
         if ($request->hasFile('berkas_spmk')) {
             $berkas_spmk = $request->file('berkas_spmk');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_spmk->getClientOriginalName();
-            $berkas_spmk_path = $berkas_spmk->storeAs('berkas_spmk', $filename);
+            $berkas_spmk_save = $berkas_spmk->storeAs('berkas_spmk', $filename);
+            $berkas_spmk_path = 'storage/berkas_spmk/'.$filename;
             $berkas['berkas_spmk'] = $berkas_spmk_path;
         }
     
         if ($request->hasFile('berkas_gambar')) {
             $berkas_gambar = $request->file('berkas_gambar');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $berkas_gambar->getClientOriginalName();
-            $berkas_gambar_path = $berkas_gambar->storeAs('berkas_gambar', $filename);
+            $berkas_gambar_save = $berkas_gambar->storeAs('berkas_gambar', $filename);
+            $berkas_gambar_path = 'storage/berkas_gambar/'.$filename;
             $berkas['berkas_gambar'] = $berkas_gambar_path;
         }
     

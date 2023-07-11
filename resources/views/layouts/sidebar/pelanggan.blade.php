@@ -16,7 +16,7 @@
             <a href="{{route('dashboard')}}" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>
-                Dashboard - Riwayat Pengujian
+                Dashboard
               </p>
             </a>
           </li>
@@ -28,6 +28,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{route('riwayat.index')}}" class="nav-link">
+            <i class="nav-icon fas fa-columns"></i>
+              <p>
+               Riwayat Pengujian
+              </p>
+            </a>
+          </li>
+          
           <li class="nav-item">
             <a href="{{ route('permohonan.index') }}" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>

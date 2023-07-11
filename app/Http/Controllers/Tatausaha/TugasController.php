@@ -117,7 +117,8 @@ class TugasController extends Controller
         if ($request->hasFile('surat_tugas')) {
             $surat_tugas = $request->file('surat_tugas');
             $filename = Str::slug($username) . '_' . $currentTime . '_' . $surat_tugas->getClientOriginalName();
-            $surat_tugas_path = $surat_tugas->storeAs('surat_tugas', $filename);
+            $surat_tugas_save = $surat_tugas->storeAs('public/surat_tugas', $filename);
+            $surat_tugas_path = 'storage/surat_tugas/'.$filename;
         }  else {
             $surat_tugas_path = null;
         }
