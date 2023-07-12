@@ -10,6 +10,7 @@ use App\Models\Layanan;
 use App\Models\User;
 use App\Models\Pengujian;
 use App\Models\Pelanggan;
+use Illuminate\Support\Facades\Response;
 
 class BayarLayananController extends Controller
 {
@@ -67,97 +68,87 @@ class BayarLayananController extends Controller
     public function showDetail($id)
     {
         $title = 'Detail Pembayaran';
-        //SAMPLE REQUEST START HERE
         $pembayaran = Pengujian::findorfail($id);
         $bayar = Layanan::with('pengujian.pelanggan.user', 'jenisLayanan')->where('pengujian_id', $pembayaran->id)->first();
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
-
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => $bayar->pengujian_id,
-                'gross_amount' => $bayar->total,
-            ),
-            // 'item_details' => array(
-            //     array(
-            //         'id' => $bayar->pengujian->id,
-            //         'nama_proyek' => $bayar->pengujian->nama_proyek, 
-            //         'nama_proyek' => $bayar->pengujian->lokasi_proyek, 
-            //         'jenis_layanan' => $bayar->jenisLayanan->nama_layanan, 
-            //     ),
-            // ),
-            'customer_details' => array(
-                'first_name' => $bayar->pengujian->pelanggan->user->username,
-                'email' => $bayar->pengujian->pelanggan->user->email,
-                'phone' => $bayar->pengujian->pelanggan->telp,
-                'nama_perusahaan' => $bayar->pengujian->pelanggan->nama_pr,
-            ),
-        );
-
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $snapToken = $bayar->snap_token;
+        
         return view('pelanggan.pembayaran.detail', compact(
-            'title', 'snapToken', 'bayar',
+            'title', 
+            'bayar', 
+            'snapToken'
     ));
+    }
+
+    public function payment_post(Request $request){
+        $json = json_decode($request->get('json'));
+        
     }
 
     public function callback(Request $request)
     {
+        
         $server_key = config('midtrans.server_key');
-        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$server_key);
-        if($hashed == $request->signature_key){
-            if($request->transaction_status == 'settlement'){
-                if (fraudStatus == 'challenge'){
-                    // TODO set transaction status on your database to 'challenge'
-                    // and response with 200 OK
-                } else if (fraudStatus == 'accept'){
-                    $pembayaran = Layanan::with('pengujian')->find($request->order_id);
-                    $pengujian = Pengujian::where('id', $pembayaran->id)->first();
-                    $pembayaran->update(['status_pembayaran' =>'paid']);
-                    $pengujian->update(['status' => 'Dibayar']);
-                    // TODO set transaction status on your database to 'success'
-                    // and response with 200 OK
-                }
-            }
-        }
+        // $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$server_key);
+    
+        // if ($hashed == $request->signature_key) {
+        //     if ($request->transaction_status == 'settlement') {
+        //         $order_id = $request->order_id;
+        //         $pembayaran = Layanan::with('pengujian')->find($order_id);
+        //         $pengujian = Pengujian::where('id', $pembayaran->id)->first();
+        //         $pembayaran->update(['status_pembayaran' => 'paid']);
+        //         $pengujian->update(['status' => 'Menunggu Penjadwalan']);
+    
+        //         $responseData = [
+        //             'status' => 'success',
+        //             'message' => "Transaction updated. Transaction id: $order_id",
+        //             'snap_token' => $request->snap_token, // Tambahkan snap_token dalam respons
+        //         ];
+    
+        //         return response()->json($responseData);
+        //     }
+        // }
+    
+        // return response()->json([
+        //     'status' => 'error',
+        //     'message' => 'Invalid transaction data.',
+        // ], 400);
     }
+}
+         
+    
+    
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function edit($id)
+//     {
+//         //
+//     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+//     /**
+//      * Update the specified resource in storage.
+//      *
+//      * @param  \Illuminate\Http\Request  $request
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function update(Request $request, $id)
+//     {
+//         //
+//     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
+//     /**
+//      * Remove the specified resource from storage.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function destroy($id)
+//     {
+//         //
+//     }
+// }

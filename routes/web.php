@@ -35,7 +35,6 @@ Route::post('/', [AuthController::class, 'store'])->name('login');
 Route::get('/register',[RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register',[RegisterController::class, 'store']);
 
-
 Route::group(['middleware' => ['auth']], function(){
     
     Route::get('/dashboard', [DashboardController::class, 'index2'])->name('dashboard');
@@ -80,9 +79,7 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
 
             Route::get('/bayar/{id}', [BayarLayananController::class, 'showDetail'])->name('bayar.showDetail');
-            
-            
-
+            Route::post('/bayar', [BayarLayananController::class, 'payment_post'])->name('payment');
 
 
         });

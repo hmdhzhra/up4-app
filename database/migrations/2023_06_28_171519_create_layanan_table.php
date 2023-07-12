@@ -20,6 +20,7 @@ class CreateLayananTable extends Migration
             $table->integer('jumlah');
             $table->bigInteger('total');
             $table->enum('status_pembayaran',['unpaid','paid']);
+            $table->string('snap_token')->nullable();
             $table->timestamps();
 
             $table->foreign('jenis_id')->references('id')->on('jenis_layanan')->onDelete('cascade');

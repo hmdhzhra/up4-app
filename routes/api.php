@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Pelanggan\BayarLayananController;
+use App\Http\Controllers\MidtransController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +18,4 @@ use App\Http\Controllers\Pelanggan\BayarLayananController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/midtrans-callback', [BayarLayananController::class, 'callback']);
+Route::post('/payment-handler', [MidtransController::class, 'payment_handler']);

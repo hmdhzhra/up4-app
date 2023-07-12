@@ -15,6 +15,7 @@ class Layanan extends Model
         'jumlah',
         'total',
         'status_pembayaran',
+        'snap_token'
     ];
     protected $attributes = [
         'status_pembayaran' => 'unpaid',

@@ -79,7 +79,7 @@
           </div>
           <div class="form-group">
             <label for="laporan">Total Bayar</label>
-            <input type="text" class="form-control" id="laporan" name="laporan" value="{{$bayar->total}}" readonly>
+            <input type="text" class="form-control" id="total" name="total" value="{{$bayar->total}}" readonly>
           </div>
 
           <div class="card-footer">
@@ -95,6 +95,10 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<form action="" id= "submit_form" method="POST">
+  @csrf
+  <input type="hidden" name="json" id="json_callback">
+</form>
 <script type="text/javascript">
       // For example trigger on button clicked, or any time you need
       var payButton = document.getElementById('pay-button');
@@ -104,14 +108,17 @@
           onSuccess: function(result){
             /* You may add your own implementation here */
             alert("payment success!"); console.log(result);
+            send_response_to_form(result);
           },
           onPending: function(result){
             /* You may add your own implementation here */
             alert("wating your payment!"); console.log(result);
+            send_response_to_form(result);
           },
           onError: function(result){
             /* You may add your own implementation here */
             alert("payment failed!"); console.log(result);
+            send_response_to_form(result);
           },
           onClose: function(){
             /* You may add your own implementation here */
@@ -119,6 +126,11 @@
           }
         })
       });
+
+      function send_response_to_form(result){
+        document.getElementById('json_callback').value = JSON.stringify(result);
+        $('#submit_form').submit();
+      }
     </script>
 
 @include('layouts.main.footer')

@@ -64,7 +64,7 @@
                     <td>{{ $pembayaran->tgl_permohonan }}</td>
                     <td>{{ $pembayaran->status }}</td>
                     <td>{{ $pembayaran->layanan->status_pembayaran }}</td>
-                    <td style="display: flex; justify-content:center;">
+                    <td >
 
                         <a type="button" class="btn btn-warning btn-sm" href="{{route('bayar.showDetail', $pembayaran->id)}}">
                           <i class="fas fa-receipt"></i>

@@ -12,6 +12,7 @@ use App\Models\Pelanggan;
 use App\Models\Layanan;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Response;
 
 
 class PermohonanController extends Controller
@@ -68,11 +69,12 @@ class PermohonanController extends Controller
             'm_harga.harga.*' => 'required|numeric',
         ]);
 
-            // Mengambil nilai jenis_id dan total dari input form
-            $jenisId = $request->input('m_harga.id_barang')[0]; // Menyesuaikan indeks jika ada multiple select
+            
+            $jenisId = $request->input('m_harga.id_barang')[0];
             $total = $request->input('tot');
             $jumlah = $request->input('m_harga.jumlah_barang')[0];
-            $currentTime = now()->format('YmdHis'); // Mendapatkan tanggal dan jam saat ini dalam format YmdHis
+            $harga = $request->input('m_harga.harga')[0];
+            $currentTime = now()->format('YmdHis'); 
             $username = Auth::user()->username;
 
         if ($request->hasFile('berkas_sp')) {
@@ -122,11 +124,45 @@ class PermohonanController extends Controller
         ]);
         $pelanggan->pengujian()->save($pengujian);
 
+        
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+        
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $pengujian->id,
+                'gross_amount' => $total,
+            ),
+            'item_details' => array(
+                array(
+                    'id' => $pengujian->id,
+                    'price' => $harga, 
+                    'quantity' => $jumlah, 
+                    'name' => $jenisId, 
+                ),
+                
+            ),
+            'customer_details' => array(
+                'first_name' => $username,
+                'email' => $pelanggan->user->email,
+                'phone' => $pelanggan->telp,
+                'nama_perusahaan' => $pelanggan->nama_pr,
+            ),
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
         $layanan = new Layanan([
             'pengujian_id' => $pengujian->id,
             'jenis_id' => $jenisId,
             'jumlah' => $jumlah,
             'total' => $total,
+            'snap_token' => $snapToken,
         ]);
         $pengujian->layanan()->save($layanan);
 
