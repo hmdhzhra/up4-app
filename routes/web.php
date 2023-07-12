@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post('/bayar', [BayarLayananController::class, 'payment_post'])->name('payment');
 
 
+
         });
     });
 
