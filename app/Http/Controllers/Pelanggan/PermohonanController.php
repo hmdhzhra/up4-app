@@ -76,6 +76,7 @@ class PermohonanController extends Controller
             $harga = $request->input('m_harga.harga')[0];
             $currentTime = now()->format('YmdHis'); 
             $username = Auth::user()->username;
+            $nama_layanan = Jenis_Layanan::findOrFail($jenisId)->nama_layanan;
 
         if ($request->hasFile('berkas_sp')) {
             $berkas_sp = $request->file('berkas_sp');
@@ -144,7 +145,7 @@ class PermohonanController extends Controller
                     'id' => $pengujian->id,
                     'price' => $harga, 
                     'quantity' => $jumlah, 
-                    'name' => $jenisId, 
+                    'name' => $nama_layanan, 
                 ),
                 
             ),
