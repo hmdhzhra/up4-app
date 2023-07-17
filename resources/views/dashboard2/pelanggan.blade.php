@@ -16,7 +16,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
@@ -42,7 +42,7 @@
                 <p>MENUNGGU VALIDASI</p>
               </div>
               <div class="icon">
-                <i class="fal fa-file-check"></i>
+                <i class="ion-android-checkbox-outline"></i>
               </div>
             </div>
           </div>
@@ -56,6 +56,7 @@
                 <p>VALIDASI DITOLAK</p>
               </div>
               <div class="icon">
+                <i class="ion-android-close"></i>
               </div>
             </div>
           </div>
@@ -69,7 +70,7 @@
                 <p>PEMBAYARAN</p>
               </div>
               <div class="icon">
-                <!-- <i class="ion ion-person-add"></i> -->
+                <i class="far fa-money-bill-alt"></i>
               </div>
             </div>
           </div>
@@ -83,7 +84,7 @@
                 <p>LAPORAN SELESAI</p>
               </div>
               <div class="icon">
-                <!-- <i class="ion ion-pie-graph"></i> -->
+                 <i class="ion-document-text"></i>
               </div>
           </div>
           <!-- ./col -->

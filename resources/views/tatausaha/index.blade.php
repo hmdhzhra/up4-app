@@ -94,6 +94,7 @@
                     <th>ID</th>
                     <th>User Name</th>
                     <th>Nama Proyek</th>
+                    <th>Jadwal Pengujian</th>
                     <th>Status</th>
                     <th>Tim Laboran</th>
                     <th>Penugasan</th>
@@ -107,6 +108,7 @@
                     <td>{{ $pengujian->id }}</td>
                     <td>{{ $pengujian->pelanggan->user->username }}</td>
                     <td>{{ $pengujian->nama_proyek }}</td>
+                    <td>{{ $pengujian->jadwal_pengujian }}</td>
                     <td>{{ $pengujian->status }}</td>
                     <td>{{ optional($pengujian->penugasan)->tim_lab }}</td>
                     <td >

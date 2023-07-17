@@ -79,24 +79,4 @@
             });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-            // Ambil elemen input validasi
-            var validasiInput = document.getElementById('validasi');
-            // Ambil elemen input keterangan
-            var keteranganInput = document.getElementById('keterangan');
-
-              // Tambahkan event listener 'change' pada input validasi
-              validasiInput.addEventListener('change', function() {
-                // Periksa nilai input validasi
-                if (validasiInput.value === 'Validasi dibatalkan') {
-                  // Jika Validasi dibatalkan dipilih, aktifkan input keterangan
-                  keteranganInput.disabled = false;
-                } else {
-                  // Jika --Pilih Validasi-- atau Validasi diterima dipilih, nonaktifkan input keterangan dan hapus nilainya
-                  keteranganInput.disabled = true;
-                  keteranganInput.value = '';
-                }
-              });
-            });
-
       </script>

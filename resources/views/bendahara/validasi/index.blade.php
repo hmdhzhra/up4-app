@@ -95,7 +95,6 @@
                     <th>Status</th>
                     <th>Keterangan</th>
                     <th>Berkas</th>
-                    <th>Invoice</th>
                     <th style="width: 120px;">Upload SSRD</th>
                     <th>Aksi</th>
                   </thead>
@@ -117,9 +116,6 @@
                         Berkas
                       </button>
                       @include('bendahara.berkasShow')
-                    </td>
-                    <td>
-
                     </td>
                     <td class="text-center">
                     @if ($pengujian->status == 'Menunggu Validasi' || $pengujian->status == 'Lakukan Pembayaran')

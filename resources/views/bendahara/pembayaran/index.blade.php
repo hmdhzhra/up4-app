@@ -60,7 +60,7 @@
                   @foreach($data_pembayaran as $pembayaran)
                   <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $pembayaran->id }}</td>
+                    <td>{{ $pembayaran->pengujian->id }}</td>
                     <td>{{ $pembayaran->pengujian->pelanggan->user->username }}</td>
                     <td>{{ $pembayaran->pengujian->nama_proyek }}</td>
                     <td>{{ $pembayaran->pengujian->tgl_permohonan }}</td>

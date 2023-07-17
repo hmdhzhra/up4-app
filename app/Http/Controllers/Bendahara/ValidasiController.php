@@ -24,7 +24,7 @@ class ValidasiController extends Controller
     {
         //
         $title = 'Validasi Berkas';
-        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Dibayar'])
+        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Dibayar', 'Menunggu Penjadwalan'])
             ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         $jml_validasi = Pengujian::where('status', ['Menunggu Validasi Berkas'])->count();
         $jml_validasiDone = Pengujian::whereNotNull('no_skrd')->count();
