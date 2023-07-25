@@ -33,6 +33,13 @@
                 {{ session('toast_success') }}
             </div>
           </div>
+        @elseif(session()->has('toast_error'))
+          <div class="container-fluid">
+            <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ session('toast_error') }}
+            </div>
+          </div>
         @endif
 
         <!-- FORM -->
@@ -124,13 +131,13 @@
 
                 <div class="col-sm-6">
                   <label for="berkas_sp">Surat Permohonan</label>
-                  @error('berkas_sp')
-                      <div class="invalid-feedback">
-                      {{ $message }}
-                      </div>
-                    @enderror
                   <div class="input-group">
                     <div class="custom-file">
+                      @error('berkas_sp')
+                          <div class="invalid-feedback">
+                          {{ $message }}
+                          </div>
+                        @enderror
                       <input type="file" class="custom-file-input @error('berkas_sp') is-invalid @enderror" id="berkas_sp" name="berkas_sp" onchange="updateFileName('berkas_sp')">
                       <label class="custom-file-label" for="berkas_sp">Choose file</label>
                     </div>
@@ -355,5 +362,24 @@
       label.innerText = fileName;
     });
   });
+  const placesAutocomplete = places({
+  appId: 'OLL6BLBCLJ', // Ganti dengan App ID dari proyek Anda di Algolia
+  apiKey: '632a2b3f5ab8356c626748ddcfa17e6d', // Ganti dengan API key "Search-Only" dari proyek Anda di Algolia
+  container: document.querySelector('#lokasi_proyek'),
+});
+
+placesAutocomplete.on('change', (e) => {
+  // Mendapatkan informasi lokasi terpilih
+  const location = e.suggestion;
+  
+  // Gunakan informasi lokasi (misalnya, nama, alamat, kota, dll.) dalam aplikasi Anda
+  console.log(location.name);
+  console.log(location.value);
+  console.log(location.city);
+  // ... tambahkan atribut lain yang Anda butuhkan ...
+});
+placesAutocomplete.on('error', (e) => {
+  console.error(e);
+});
 </script>
 @include('layouts.main.footer')

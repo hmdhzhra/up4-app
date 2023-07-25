@@ -119,7 +119,6 @@
                     <th>No.</th>
                     <th>ID</th>
                     <th>No. SKRD</th>
-                    <th>No. Order</th>
                     <th>Nama Proyek</th>
                     <th>Tanggal Permohonan</th>
                     <th>Jadwal Pengujian</th>
@@ -136,7 +135,6 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $pengujian->id }}</td>
                     <td>{{ $pengujian->no_skrd }}</td>
-                    <td>{{ $pengujian->no_order }}</td>
                     <td>{{ $pengujian->nama_proyek }}</td>
                     <td>{{ $pengujian->tgl_permohonan }}</td>
                     <td>{{ $pengujian->jadwal_pengujian }}</td>

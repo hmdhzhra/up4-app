@@ -50,6 +50,7 @@ class DashboardController extends Controller
                     'title',
                     'username', 
                     'validasi',
+                    'pelanggan',
                     'validasi_ditolak',
                     'stats_pembayaran',
                     'selesai'

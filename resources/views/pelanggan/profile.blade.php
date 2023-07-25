@@ -27,11 +27,13 @@
       <div class="container-fluid">
 
             <!-- Alert Info -->
+        @if(!optional($pelanggan)->id)
         <div class="alert alert-info alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h5><i class="icon fas fa-info"></i> Alert!</h5>
           Lengkapi Data Pelanggan!
         </div>
+        @endif
 
         @if(session()->has('toast_success'))
             <div class="container-fluid">

@@ -29,7 +29,9 @@ class PermohonanController extends Controller
         $jenis_layanan = Jenis_Layanan::all();
         $pelanggan = Pelanggan::where('user_id', Auth::user()->id)->first(); //get pelanggan
         return view('pelanggan.pengujian.permohonan', compact(
-                'title', 'jenis_layanan', 'pelanggan'
+                'title', 
+                'jenis_layanan', 
+                'pelanggan'
         ));
     }
 
@@ -41,6 +43,7 @@ class PermohonanController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         //Validasi input
         $validatedData = $request->validate([
             'nama_proyek' => 'required',
@@ -59,6 +62,12 @@ class PermohonanController extends Controller
             'm_harga.harga.*' => 'required|numeric',
         ]);
 
+            if (in_array($request->radio1, ['SDBM Jakarta Timur', 'SDBM Jakarta Barat', 'SDBM Jakarta Selatan', 'SDBM Jakarta Pusat'])) {
+                // Validasi berkas_spmk menjadi required
+                $validatedData = $request->validate([
+                    'berkas_spmk' => 'required|mimes:pdf|file|max:5120',
+                ]);
+            }
             
             $jenisId = $request->input('m_harga.id_barang')[0];
             $total = $request->input('tot');
@@ -158,6 +167,10 @@ class PermohonanController extends Controller
         $pengujian->layanan()->save($layanan);
 
         return redirect()->route('riwayat.index')->with('toast_success', 'Permohonan Pengujian berhasil dikirim.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Tangkap exception jika validasi gagal
+            return redirect()->route('permohonan.index')->with('toast_error', 'Permohonan pengujian gagal disimpan, masukkan berkas yang wajib dan file berbentuk pdf!')->withErrors($e->errors());
+        }
     }
 
 

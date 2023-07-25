@@ -30,6 +30,7 @@ class RiwayatController extends Controller
         $validasi_ditolak = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Validasi ditolak'])->count();
         $stats_pembayaran = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Lakukan Pembayaran'])->count();
         $selesai = Pengujian::where('pelanggan_id', $data_pelanggan->id)->whereIn('status', ['Selesai'])->count();
+        $pelanggan =$user->pelanggan;
 
         return view('pelanggan.pelanggan', compact(
             'title', 
@@ -39,7 +40,8 @@ class RiwayatController extends Controller
             'validasi',
             'validasi_ditolak',
             'stats_pembayaran',
-            'selesai'
+            'selesai',
+            'pelanggan'
 
         ));
     }

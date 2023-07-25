@@ -32,9 +32,12 @@ class BayarLayananController extends Controller
                     });
             })->where('pelanggan_id', $data_pelanggan->id)->get();
 
-
+            $user = Auth::user();
+            $pelanggan =$user->pelanggan;
         return view('pelanggan.pembayaran.index', compact(
-                'title', 'data_pembayaran'
+                'title', 
+                'data_pembayaran',
+                'pelanggan'
         ));
     }
 
