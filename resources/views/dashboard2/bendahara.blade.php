@@ -53,7 +53,7 @@
               <div class="inner">
                 <h3>{{$jml_tervalidasi}}</h3>
 
-                <p>Tervalidasi</p>
+                <p>Harus Divalidasi</p>
               </div>
               <div class="icon">
               </div>

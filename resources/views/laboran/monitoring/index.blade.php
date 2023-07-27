@@ -75,8 +75,6 @@
                     <td>
                       @if($pengujian->penugasan->laporan_lab)
                           <a href="{{ asset($pengujian->penugasan->laporan_lab) }}" class="btn btn-primary" target="_blank">Tampilkan</a>
-                      @else
-                          <p> </p>
                       @endif
                     </td>
                     <td >

@@ -48,11 +48,11 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{ $jml_validasiDone }}</h3>
+                <h3>{{ $jml_ditolak }}</h3>
 
-                <p>Disetujui</p>
+                <p>Validasi Ditolak</p>
               </div>
               <div class="icon">
 
@@ -87,11 +87,9 @@
                     <th>No.</th>
                     <th>ID</th>
                     <th>No. SKRD</th>
-                    <th>No. Order</th>
                     <th>Nama</th>
                     <th>Nama Perusahaan</th>
                     <th>Nama Proyek</th>
-                    <th>Lokasi Proyek</th>
                     <th>Status</th>
                     <th>Keterangan</th>
                     <th>Berkas</th>
@@ -104,11 +102,9 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $pengujian->id }}</td>
                     <td>{{ $pengujian->no_skrd }}</td>
-                    <td>{{ $pengujian->no_order }}</td>
                     <td>{{ $pengujian->pelanggan->nama_lengkap }}</td>
                     <td>{{ $pengujian->pelanggan->nama_pr }}</td>
                     <td>{{ $pengujian->nama_proyek }}</td>
-                    <td>{{ $pengujian->lokasi_proyek }}</td>
                     <td>{{ $pengujian->status }}</td>
                     <td>{{ $pengujian->keterangan }}</td>
                     <td>
@@ -117,16 +113,21 @@
                       </button>
                       @include('bendahara.berkasShow')
                     </td>
-                    <td class="text-center">
-                    @if ($pengujian->status == 'Menunggu Validasi' || $pengujian->status == 'Lakukan Pembayaran')
+                    <td class="d-flex justify-content-between">
+                      @if ($pengujian->layanan && $pengujian->layanan->status_pembayaran == 'paid')
                         <!-- Tidak ada tindakan yang dilakukan -->
-                    @else
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-edit{{ $pengujian->id }}">
-                            <i class="far fa-check-square"></i>
+                        <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#modal-edit{{ $pengujian->id }}">
+                          <i class="far fa-check-square"></i>
                         </button>
-                        @endif
-                        
-                      </td>
+                      @endif
+
+                      @if ($pengujian->berkas_skrd)
+                        <a href="{{ asset($pengujian->berkas_skrd) }}" class="btn btn-info btn-sm" target="_blank">
+                          <i class="fas fa-file-contract"></i>
+                        </a>
+                      @endif
+                    </td>
+
                       @include('bendahara.validasi.edit')
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-show{{$pengujian->id}}">

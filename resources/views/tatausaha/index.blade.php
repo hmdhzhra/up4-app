@@ -34,9 +34,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{ $jml_dibayar }}</h3>
+                <h3>{{ $jml_pembagian}}</h3>
 
-                <p>Dibayar</p>
+                <p>Menunggu Pembagian Laboran</p>
               </div>
               <div class="icon">
               </div>
@@ -118,10 +118,13 @@
                         @include('tatausaha.bagiTugas')
                     </td>
                     <td style="justify-content:center;">
+                    @if($pengujian->jadwal_pengujian)
                       <button type="button" class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#modal-upload{{$pengujian->id}}">
                             Upload Surat Tugas
                       </button>
                       @include('tatausaha.suratTugas')
+                    
+                    @endif
                     </td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-show{{$pengujian->id}}">

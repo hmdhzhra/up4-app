@@ -109,16 +109,23 @@
             /* You may add your own implementation here */
             alert("payment success!"); console.log(result);
             send_response_to_form(result);
+
+            // Redirect to bayar.index
+            window.location.href = '{{ route('bayar.index') }}';
           },
           onPending: function(result){
             /* You may add your own implementation here */
             alert("wating your payment!"); console.log(result);
             send_response_to_form(result);
+            // Redirect to bayar.index
+            window.location.href = '{{ route('bayar.index') }}';
           },
           onError: function(result){
             /* You may add your own implementation here */
             alert("payment failed!"); console.log(result);
             send_response_to_form(result);
+            // Redirect to bayar.index
+           window.location.href = '{{ route('bayar.index') }}';
           },
           onClose: function(){
             /* You may add your own implementation here */

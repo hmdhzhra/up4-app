@@ -95,7 +95,6 @@
                     <th>User Name</th>
                     <th>Nama Perusahaan</th>
                     <th>Nama Proyek</th>
-                    <th>Lokasi Proyek</th>
                     <th>Tim Laboran</th>
                     <th>Tanggal Permohonan</th>
                     <th>Jadwal Pengujian</th>
@@ -112,7 +111,6 @@
                     <td>{{ $penugasan->pengujian->pelanggan->user->username }}</td>
                     <td>{{ $penugasan->pengujian->pelanggan->nama_pr }}</td>
                     <td>{{ $penugasan->pengujian->nama_proyek }}</td>
-                    <td>{{ $penugasan->pengujian->lokasi_proyek }}</td>
                     <td>{{ $penugasan->tim_lab }}</td>
                     <td>{{ $penugasan->pengujian->tgl_permohonan }}</td>
                     <td>{{ $penugasan->pengujian->jadwal_pengujian }}</td>

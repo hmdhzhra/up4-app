@@ -26,7 +26,7 @@ class BayarLayananController extends Controller
         $data_pelanggan = Pelanggan::where('user_id', Auth::user()->id)->first();
         $data_pembayaran = Pengujian::with(['layanan.jenisLayanan'])
             ->where(function ($query) {
-                $query->whereIn('status', ['Lakukan Pembayaran', 'Dibayar'])
+                $query->whereIn('status', ['Lakukan Pembayaran', 'Penerbitan SSRD'])
                     ->whereHas('layanan', function ($subquery) {
                         $subquery->whereIn('status_pembayaran', ['unpaid', 'paid']);
                     });
@@ -74,11 +74,13 @@ class BayarLayananController extends Controller
         $pembayaran = Pengujian::findorfail($id);
         $bayar = Layanan::with('pengujian.pelanggan.user', 'jenisLayanan')->where('pengujian_id', $pembayaran->id)->first();
         $snapToken = $bayar->snap_token;
+        $pelanggan = Pelanggan::where('user_id', Auth::user()->id)->first();
         
         return view('pelanggan.pembayaran.detail', compact(
             'title', 
             'bayar', 
-            'snapToken'
+            'snapToken',
+            'pelanggan'
     ));
     }
 
@@ -86,72 +88,5 @@ class BayarLayananController extends Controller
         $json = json_decode($request->get('json'));
         
     }
-
-    public function callback(Request $request)
-    {
-        
-        $server_key = config('midtrans.server_key');
-        // $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$server_key);
-    
-        // if ($hashed == $request->signature_key) {
-        //     if ($request->transaction_status == 'settlement') {
-        //         $order_id = $request->order_id;
-        //         $pembayaran = Layanan::with('pengujian')->find($order_id);
-        //         $pengujian = Pengujian::where('id', $pembayaran->id)->first();
-        //         $pembayaran->update(['status_pembayaran' => 'paid']);
-        //         $pengujian->update(['status' => 'Menunggu Penjadwalan']);
-    
-        //         $responseData = [
-        //             'status' => 'success',
-        //             'message' => "Transaction updated. Transaction id: $order_id",
-        //             'snap_token' => $request->snap_token, // Tambahkan snap_token dalam respons
-        //         ];
-    
-        //         return response()->json($responseData);
-        //     }
-        // }
-    
-        // return response()->json([
-        //     'status' => 'error',
-        //     'message' => 'Invalid transaction data.',
-        // ], 400);
-    }
 }
          
-    
-    
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function edit($id)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Update the specified resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function update(Request $request, $id)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Remove the specified resource from storage.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function destroy($id)
-//     {
-//         //
-//     }
-// }

@@ -15,14 +15,7 @@
                 <div class="modal-body">
                 
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="id">ID</label>
-                            <input type="text" class="form-control" id="id" name="ide" value="{{$pengujian->id}}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">User Name</label>
-                            <input type="text" class="form-control" id="username" name="username" value="{{$pengujian->pelanggan->user->username}}" readonly>
-                        </div>
+
                         <div class="form-group">
                             <label for="nama_proyek">Nama Proyek</label>
                             <input type="text" class="form-control" id="nama_proyek" name="nama_proyek" value="{{$pengujian->nama_proyek}}" readonly>

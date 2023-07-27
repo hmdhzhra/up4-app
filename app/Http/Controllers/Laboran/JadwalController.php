@@ -26,18 +26,18 @@ class JadwalController extends Controller
         $jml_selesai = Pengujian::where('status', 'Selesai')->count();
         $jml_proses = Pengujian::where('status', 'Proses Pengujian')->count();
         if (Auth::user()->jenis_lab == 'Tim Campuran Beraspal'){
-            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Campuran Beraspal')->get();
+            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Campuran Beraspal')->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         }elseif (Auth::user()->jenis_lab == 'Tim Aspal'){
-            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Aspal')->get();
+            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Aspal')->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
 
         }elseif (Auth::user()->jenis_lab == 'Tim Penyelidikan Lapangan'){
-            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Penyelidikan Lapangan')->get();
+            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Penyelidikan Lapangan')->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
 
         }elseif (Auth::user()->jenis_lab == 'Tim Agregat, Tanah, dan Beton'){
-            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Agregat, Tanah, dan Beton')->get();
+            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Agregat, Tanah, dan Beton')->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
 
         }elseif (Auth::user()->jenis_lab == 'Tim Pengukuran'){
-            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Pengukuran')->get();
+            $data_penugasan = Penugasan::with('pengujian.pelanggan.user', 'pengujian.layanan.jenisLayanan')->where('tim_lab', 'Tim Pengukuran')->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
 
         }
         return view('laboran.penjadwalan', compact(
@@ -105,7 +105,7 @@ class JadwalController extends Controller
         $data = [
             'jadwal_pengujian' =>$request->jadwal_pengujian,
             'keterangan' =>$request->keterangan,
-            'status' => 'Menunggu Material Pengujian'
+            'status' => 'Penerbitan Surat Tugas'
         ];
         $penugasan->pengujian->update($data);
         return back()->with('toast_success', 'Penjadwalan berhasil dilakukan');

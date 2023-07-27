@@ -55,7 +55,7 @@
 
                   <div class="form-group">
                     <label for="nama_proyek">Nama Proyek</label>
-                    <input type="text" class="form-control @error('nama_proyek') is-invalid @enderror" id="nama_proyek" name="nama_proyek" placeholder="Masukkan Nama Proyek" >
+                    <input type="text" class="form-control @error('nama_proyek') is-invalid @enderror" id="nama_proyek" name="nama_proyek" placeholder="Masukkan Nama Proyek" value="{{ old('nama_proyek') }}" required>
                     @error('nama_proyek')
                       <div class="invalid-feedback">
                       {{ $message }}
@@ -65,7 +65,7 @@
 
                   <div class="form-group">
                     <label for="lokasi_proyek">Lokasi Proyek</label>
-                    <input type="text" class="form-control @error('lokasi_proyek')is-invalid @enderror" id="lokasi_proyek" name="lokasi_proyek" placeholder="Masukkan Lokasi Proyek" required>
+                    <input type="text" class="form-control @error('lokasi_proyek')is-invalid @enderror" id="lokasi_proyek" name="lokasi_proyek" placeholder="Masukkan Lokasi Proyek" value="{{ old('lokasi_proyek') }}" required>
                     @error('lokasi_proyek')
                       <div class="invalid-feedback">
                       {{ $message }}
@@ -124,13 +124,55 @@
                 
                 </div><!-- /.card-body--> 
               </div>
+
+                           <!-- JENIS LAYANAN -->
+             <div class="form-group">
+               <div class="box box-primary">
+                 <table class="table table-bordered table-striped table-responsive" id="table1">
+                   <tr>
+                     <th>Jenis Layanan</th>
+                     <th>Kuantitas</th>
+                     <th>Harga</th>
+                     <th>Satuan</th>
+                     <th>Total</th>
+                   </tr>
+                   <tr>
+                      <td>
+                        <div class="form-group">
+                          <select id="jenis_id" type="text"  required name="m_harga[id_barang][]" class="form-control js-example-basic-single2" autocomplete="off">
+                              <option value=""></option>
+                              <?php foreach ($jenis_layanan as $layanan) : ?>
+                                <option value="<?php echo $layanan->id ?>" data-satuan="<?php echo $layanan->satuan ?>" data-harga="<?php echo $layanan->harga ?>"><?php echo $layanan->id ?>|<?php echo $layanan->nama_layanan ?> | <?php echo $layanan->satuan ?> | <?php echo $layanan->harga ?></option>
+                                  <?php endforeach ?>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td>
+                         <input type="text" name="m_harga[jumlah_barang][]" id="p"  onkeyup="getItems()"  class="form-control jumlah-input" autocomplete="off" required>
+                      
+                      </td>
+                      <td>
+                        <input type="text" name="m_harga[harga][]" id="harga_3[0]" class="form-control harga-input" autocomplete="off" readonly>
+
+                      </td>
+                      <td>
+                        <input type="text" name="satuan" id="satuan_3" class="form-control satuan-input" autocomplete="off" readonly>
+                      </td>
+                      <td>
+                        <input type="text" name="tot" id="p"  class="form-control total-input" autocomplete="off" readonly>
+                      </td>
+                   </tr>
+                 </table>
+               </div>
+             </div>
               
               <!-- FILE INPUT -->
-              <label>Berikut ini beberapa syarat yang harus dilampirkan (file dalam bentuk pdf) :</label><br>
+              <label>Berikut ini beberapa syarat yang harus dilampirkan :</label><br>
               <div class="form-group row">
 
                 <div class="col-sm-6">
-                  <label for="berkas_sp">Surat Permohonan</label>
+                  <label for="berkas_sp">Surat Permohonan (Pdf*)</label>
                   <div class="input-group">
                     <div class="custom-file">
                       @error('berkas_sp')
@@ -149,7 +191,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                  <label for="berkas_spmk">SPMK/ E-Purchasing</label>
+                  <label for="berkas_spmk">SPMK/ E-Purchasing (Pdf*)</label>
                   <div class="input-group">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input @error('berkas_spmk') is-invalid @enderror" id="berkas_spmk" name="berkas_spmk">
@@ -168,7 +210,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                  <label for="berkas_ktp">KTP</label>
+                  <label for="berkas_ktp">KTP (Pdf*)</label>
                   <div class="input-group">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input @error('berkas_ktp') is-invalid @enderror" id="berkas_ktp" name="berkas_ktp">
@@ -211,47 +253,7 @@
              
              
              
-             <!-- JENIS LAYANAN -->
-             <div class="form-group">
-               <div class="box box-primary">
-                 <table class="table table-bordered table-striped table-responsive" id="table1">
-                   <tr>
-                     <th>Jenis Layanan</th>
-                     <th>Kuantitas</th>
-                     <th>Harga</th>
-                     <th>Satuan</th>
-                     <th>Total</th>
-                   </tr>
-                   <tr>
-                      <td>
-                        <div class="form-group">
-                          <select id="jenis_id" type="text"  required name="m_harga[id_barang][]" class="form-control js-example-basic-single2" autocomplete="off">
-                              <option value=""></option>
-                              <?php foreach ($jenis_layanan as $layanan) : ?>
-                                <option value="<?php echo $layanan->id ?>" data-satuan="<?php echo $layanan->satuan ?>" data-harga="<?php echo $layanan->harga ?>"><?php echo $layanan->id ?>|<?php echo $layanan->nama_layanan ?> | <?php echo $layanan->satuan ?> | <?php echo $layanan->harga ?></option>
-                                  <?php endforeach ?>
-                          </select>
-                        </div>
-                      </td>
 
-                      <td>
-                         <input type="text" name="m_harga[jumlah_barang][]" id="p"  onkeyup="getItems()"  class="form-control jumlah-input" autocomplete="off" required>
-                      
-                      </td>
-                      <td>
-                        <input type="text" name="m_harga[harga][]" id="harga_3[0]" class="form-control harga-input" autocomplete="off" readonly>
-
-                      </td>
-                      <td>
-                        <input type="text" name="satuan" id="satuan_3" class="form-control satuan-input" autocomplete="off" readonly>
-                      </td>
-                      <td>
-                        <input type="text" name="tot" id="p"  class="form-control total-input" autocomplete="off" readonly>
-                      </td>
-                   </tr>
-                 </table>
-               </div>
-             </div>
 
 
             </div>

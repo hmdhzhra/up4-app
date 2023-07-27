@@ -1,7 +1,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <span class="d-flex brand-text font-weight-light justify-content-center">YANTI BINA MARGA</span>
+    <a href="" class="brand-link">
+    <img src="/assets/dist/img/logo_dbm2.png" alt="Logo" height="75" width="75" class="brand-image">
+      <span class="d-flex brand-text">
+        <strong>UP4 APP</strong>
+      </span>
     </a>
 
     <!-- Sidebar -->
@@ -22,7 +25,7 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('penjadwalan.index') }}" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
+            <i class="nav-icon fas fa-columns"></i>
               <p>
                 Penjadwalan
               </p>

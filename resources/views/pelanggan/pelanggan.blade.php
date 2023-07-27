@@ -125,7 +125,7 @@
                     <th>Status</th>
                     <th>Keterangan</th>
                     <th>Berkas</th>
-                    <th>Download SKRD</th>
+                    <th>Download SSRD</th>
                     <th>Download Laporan</th>
                     <th>Aksi</th>
                   </thead>

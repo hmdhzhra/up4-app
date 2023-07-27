@@ -24,15 +24,15 @@ class TugasController extends Controller
     {
         //
         $title = 'Pengendalian Tugas';
-        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan', 'penugasan')->whereIn('status', ['Dibayar', 'Menunggu Penjadwalan'])
+        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan', 'penugasan')->whereIn('status', ['Penerbitan SSRD', 'Pembagian Laboran', 'Menunggu Penjadwalan', 'Penerbitan Surat Tugas', 'Proses Pengujian'])
         ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
-        $jml_dibayar = Pengujian::where('status', 'Dibayar')->count();
+        $jml_pembagian = Pengujian::where('status', 'Pembagian Laboran')->count();
         $jml_penjadwalan = Pengujian::where('status', 'Menunggu Penjadwalan')->count();
         $jml_selesai = Pengujian::where('status', 'Selesai')->count();
         return view('tatausaha.index', compact(
             'title',
             'data_pengujian',
-            'jml_dibayar',
+            'jml_pembagian',
             'jml_penjadwalan',
             'jml_selesai'
         ));
@@ -126,7 +126,11 @@ class TugasController extends Controller
         $data = [
             'surat_tugas' => $surat_tugas_path,
         ];
+        $statusUpdated = [
+            'status' => 'Proses Pengujian',
+        ];
         $pengujian->penugasan->update($data);
+        $pengujian->update($statusUpdated);
     
         return back()->with('toast_success', 'Upload surat tugas berhasil');
     

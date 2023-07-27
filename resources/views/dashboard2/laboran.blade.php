@@ -64,14 +64,14 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{ $jml_terjadwal }}</h3>
+                <h3>{{ $jml_penjadwalan }}</h3>
 
-                <p>Pengujian Terjadwal</p>
+                <p>Menunggu Penjadwalan</p>
               </div>
               <div class="icon">
                 <!-- <i class="ion ion-person-add"></i> -->
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('penjadwalan.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

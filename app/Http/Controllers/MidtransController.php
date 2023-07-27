@@ -29,8 +29,8 @@ class MidtransController extends Controller
         $order_id = $json->order_id;
         $pembayaran = Layanan::with('pengujian.pelanggan.user')->where('pengujian_id', $order_id)->first();
         $pembayaran->update(['status_pembayaran' => 'paid']);
-        $pembayaran->pengujian->update(['status' => 'Dibayar']);
+        $pembayaran->pengujian->update(['status' => 'Penerbitan SSRD']);
 
-        return Response::json(['url' => route('bayar.index')]);
+        return redirect()->route('bayar.index');
     }
 }

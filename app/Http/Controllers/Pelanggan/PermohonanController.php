@@ -44,15 +44,12 @@ class PermohonanController extends Controller
     public function store(Request $request)
     {
         try {
+        $jenisId = $request->input('m_harga.id_barang')[0];
         //Validasi input
         $validatedData = $request->validate([
             'nama_proyek' => 'required',
             'lokasi_proyek' => 'required',
             'radio1' => 'required',
-            'berkas_sp' => 'required|mimes:pdf|file|max:5120',
-            'berkas_spmk' => 'nullable|mimes:pdf|file|max:5120',
-            'berkas_ktp' => 'required|mimes:pdf|file|max:5120',
-            'berkas_gambar' => 'nullable|mimes:jpeg,jpg,png,pdf,doc,docx|file|max:5120',
             'tot' => 'required|numeric',
             'm_harga.id_barang' => 'required|array',
             'm_harga.id_barang.*' => 'required|exists:jenis_layanan,id',
@@ -60,16 +57,30 @@ class PermohonanController extends Controller
             'm_harga.jumlah_barang.*' => 'required|integer|min:1',
             'm_harga.harga' => 'required|array',
             'm_harga.harga.*' => 'required|numeric',
+            'berkas_sp' => 'required|mimes:pdf|file|max:5120',
+            'berkas_spmk' => 'nullable|mimes:pdf|file|max:5120',
+            'berkas_ktp' => 'required|mimes:pdf|file|max:5120',
+            'berkas_gambar' => 'nullable|mimes:jpeg,jpg,png,pdf,doc,docx|file|max:5120',
         ]);
 
-            if (in_array($request->radio1, ['SDBM Jakarta Timur', 'SDBM Jakarta Barat', 'SDBM Jakarta Selatan', 'SDBM Jakarta Pusat'])) {
+            if ((in_array($request->radio1, ['SDBM Jakarta Timur', 'SDBM Jakarta Barat', 'SDBM Jakarta Selatan', 'SDBM Jakarta Pusat', 'SDBM Jakarta Utara'])) && (($jenisId >= 1 && $jenisId <= 39) || ($jenisId >= 99 && $jenisId <= 106))) {
+                // Validasi berkas_spmk menjadi required
+                $validatedData = $request->validate([
+                    'berkas_spmk' => 'required|mimes:pdf|file|max:5120',
+                    'berkas_gambar' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx|file|max:5120',
+                ]);
+            }elseif (in_array($request->radio1, ['SDBM Jakarta Timur', 'SDBM Jakarta Barat', 'SDBM Jakarta Selatan', 'SDBM Jakarta Pusat'])) {
                 // Validasi berkas_spmk menjadi required
                 $validatedData = $request->validate([
                     'berkas_spmk' => 'required|mimes:pdf|file|max:5120',
                 ]);
+            } elseif (($jenisId >= 1 && $jenisId <= 39) || ($jenisId >= 99 && $jenisId <= 106)) {
+                // Validasi berkas_gambar menjadi required
+                $validatedData = $request->validate([
+                    'berkas_gambar' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx|file|max:5120',
+                ]);
             }
-            
-            $jenisId = $request->input('m_harga.id_barang')[0];
+
             $total = $request->input('tot');
             $jumlah = $request->input('m_harga.jumlah_barang')[0];
             $harga = $request->input('m_harga.harga')[0];
@@ -168,8 +179,9 @@ class PermohonanController extends Controller
 
         return redirect()->route('riwayat.index')->with('toast_success', 'Permohonan Pengujian berhasil dikirim.');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            $request->session()->flashInput($request->input());
             // Tangkap exception jika validasi gagal
-            return redirect()->route('permohonan.index')->with('toast_error', 'Permohonan pengujian gagal disimpan, masukkan berkas yang wajib dan file berbentuk pdf!')->withErrors($e->errors());
+            return back()->with('toast_error', 'Permohonan pengujian gagal disimpan, masukkan berkas yang bersifat wajib serta sesuaikan format filenya!')->withErrors($e->errors());
         }
     }
 

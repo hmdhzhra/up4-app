@@ -24,7 +24,7 @@ class LaporanController extends Controller
     {
         //
         $title = 'Laporan';
-        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan', 'penugasan')->whereIn('status', ['Proses Pengujian', 'Menunggu Laporan', 'Selesai'])
+        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan', 'penugasan')->whereIn('status', ['Proses Pengujian', 'Persetujuan Laporan', 'Menunggu Laporan', 'Persetujuan Laporan', 'Selesai'])
         ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         return view('tatausaha.laporan', compact(
             'title',

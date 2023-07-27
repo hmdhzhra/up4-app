@@ -80,7 +80,7 @@ class DashboardController extends Controller
         } elseif (Auth::user()->role == 'tatausaha'){
             $jml_pengujian = Pengujian::all()->count();
             $jml_tervalidasi = Pengujian::whereNotNull('no_skrd')->count();
-            $jml_terjadwal = Pengujian::whereNotNull('jadwal_pengujian')->count();
+            $jml_pembagian = Pengujian::where('status', 'Pembagian Laboran')->count();
             $jml_selesai = Pengujian::whereNotNull('laporan')->count();
             $full_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')
             ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
@@ -89,14 +89,14 @@ class DashboardController extends Controller
                 'title', 
                 'jml_pengujian',
                 'jml_tervalidasi',
-                'jml_terjadwal',
+                'jml_pembagian',
                 'jml_selesai',
                 'full_pengujian'
             ));
         } elseif (Auth::user()->role == 'laboran'){
             $jml_pengujian = Pengujian::all()->count();
             $jml_tervalidasi = Pengujian::whereNotNull('no_skrd')->count();
-            $jml_terjadwal = Pengujian::whereNotNull('jadwal_pengujian')->count();
+            $jml_penjadwalan = Pengujian::where('status', 'Menunggu Penjadwalan')->count();
             $jml_selesai = Pengujian::whereNotNull('laporan')->count();
             $full_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')
             ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
@@ -105,7 +105,7 @@ class DashboardController extends Controller
                 'title', 
                 'jml_pengujian',
                 'jml_tervalidasi',
-                'jml_terjadwal',
+                'jml_penjadwalan',
                 'jml_selesai',
                 'full_pengujian'
             ));

@@ -23,7 +23,7 @@ class MonitoringController extends Controller
     public function index()
     {
         $title = "Monitoring Pelayanan";
-        $data_pengujian = Pengujian::with('penugasan')->whereIn('status', ['Proses Pengujian', 'Menunggu Laporan', 'Selesai'])->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
+        $data_pengujian = Pengujian::with('penugasan')->whereIn('status', ['Proses Pengujian', 'Menunggu Laporan', 'Persetujuan Laporan', 'Selesai'])->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         return view('laboran.monitoring.index', compact(
             'title', 
             'data_pengujian',
@@ -102,12 +102,12 @@ class MonitoringController extends Controller
         $pengujian->penugasan->update($data);
 
         $data2 = [
-            'status' => 'Menunggu Laporan',
+            'status' => 'Persetujuan Laporan',
 
         ];
         $pengujian->update($data2);
 
-        return back()->with('toast_success', 'Upload surat tugas berhasil');
+        return back()->with('toast_success', 'Upload laporan berhasil');
     }
 
     /**

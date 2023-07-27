@@ -17,7 +17,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="no_skrd">No. SKRD</label>
-                        <input type="text" class="form-control @error('no_skrd')is-invalid @enderror" id="no_skrd" name="no_skrd" placeholder="Masukkan No. SKRD" value="{{ $pengujian->no_skrd ?? old('no_skrd') }}">
+                        <input type="text" class="form-control @error('no_skrd')is-invalid @enderror" id="no_skrd" name="no_skrd" placeholder="Masukkan No. SKRD" value="{{ $pengujian->no_skrd ?? old('no_skrd') }}" required>
                         @error('no_skrd')
                           <div class="invalid-feedback">
                           {{ $message }}
@@ -27,7 +27,7 @@
 
                       <div class="form-group">
                         <label for="no_skrd">No. Order</label>
-                        <input type="text" class="form-control @error('no_order')is-invalid @enderror" id="no_order" name="no_order" placeholder="Masukkan No. Order" value="{{ $pengujian->no_order ?? old('no_order') }}">
+                        <input type="text" class="form-control @error('no_order')is-invalid @enderror" id="no_order" name="no_order" placeholder="Masukkan No. Order" value="{{ $pengujian->no_order ?? old('no_order') }}" required>
                         @error('no_order')
                           <div class="invalid-feedback">
                           {{ $message }}

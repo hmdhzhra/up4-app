@@ -1,11 +1,14 @@
 @include('layouts.auth.header')
 
 
+<div class="login-logo">
+  <img src="/assets/dist/img/logo_dbm2.png" alt="Logo" height="150" width="150" class="brand-image">
+</div>
+<h4 class="font-weight-bold">UNIT PENGELOLA PENYELIDIKAN, PENGUJIAN</h4>
+  <h4 class="font-weight-bold">DAN PENGUKURAN BINA MARGA</h4>
+  <h4 class="font-weight-bold">DINAS BINA MARGA DKI JAKARTA</h4>
 <body class="hold-transition login-page">
   <div class="login-box">
-    <div class="login-logo">
-      <img src="/assets/dist/img/logo.jpg" alt="Logo" height="270" width="270" class="brand-image">
-    </div>
 
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -43,7 +46,7 @@
         <div class="row">
           <div class="col-8">
               <p>
-                <a href="forgot-password.html">Lupa password</a>
+                
               </p>
           </div>
           <!-- /.col -->
@@ -64,6 +67,7 @@
     
 </div>
 <!-- /.login-box -->
+<br>
 @if(session()->has('success'))
     <div class="container-fluid">
       <div class="alert alert-success alert-dismissible">

@@ -24,15 +24,15 @@ class ValidasiController extends Controller
     {
         //
         $title = 'Validasi Berkas';
-        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Dibayar', 'Menunggu Penjadwalan'])
+        $data_pengujian = Pengujian::with('pelanggan.user', 'layanan.jenisLayanan')->whereIn('status', ['Menunggu Validasi Berkas', 'Lakukan Pembayaran', 'Validasi Ditolak', 'Penerbitan SSRD', 'Pembagian Laboran', 'Menunggu Penjadwalan', 'Penerbitan Surat Tugas', 'Menunggu Sample Pengujian', 'Proses Pengujian'])
             ->orderBy('updated_at', 'DESC')->orderBy('created_at', 'DESC')->get();
         $jml_validasi = Pengujian::where('status', ['Menunggu Validasi Berkas'])->count();
-        $jml_validasiDone = Pengujian::whereNotNull('no_skrd')->count();
+        $jml_ditolak = Pengujian::where('status', ['Validasi Ditolak'])->count();
             return view('bendahara.validasi.index', compact(
                 'title', 
                 'data_pengujian',
                 'jml_validasi',
-                'jml_validasiDone',
+                'jml_ditolak',
         ));
     }
 
@@ -62,7 +62,7 @@ class ValidasiController extends Controller
             $data = [
                 'no_skrd' =>$request->no_skrd,
                 'no_order' =>$request->no_order,
-                'status' => 'Menunggu Penjadwalan',
+                'status' => 'Pembagian Laboran',
                 'berkas_skrd' => $berkas_skrd_path,
             ];
             $pengujian->update($data);

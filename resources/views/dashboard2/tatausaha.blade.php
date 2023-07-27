@@ -64,9 +64,9 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{ $jml_terjadwal }}</h3>
+                <h3>{{ $jml_pembagian }}</h3>
 
-                <p>Pengujian Terjadwal</p>
+                <p>Menunggu Pembagian Laboran</p>
               </div>
               <div class="icon">
                 <!-- <i class="ion ion-person-add"></i> -->

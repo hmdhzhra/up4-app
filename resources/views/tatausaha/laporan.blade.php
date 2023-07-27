@@ -82,10 +82,18 @@
                       @endif
                     </td>
                     <td style="justify-content:center;">
+                    @if($pengujian->penugasan->laporan_lab)
                       <button type="button" class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#modal-upload{{$pengujian->id}}">
                             Upload Laporan
                       </button>
                       @include('tatausaha.uploadLaporan')
+                      @else
+                      <button type="button" class="btn btn-info btn-sm font-weight-bold"  disabled>
+                              Upload Laporan
+                      </button>
+                          
+                    @endif
+                    
                     </td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-show{{$pengujian->id}}">
